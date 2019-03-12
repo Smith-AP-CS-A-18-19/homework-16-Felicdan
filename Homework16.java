@@ -6,8 +6,13 @@ public class Homework16 {
 	 * multiplication is repeated addition
 	 */
 	public static int problem1(int a, int b) {
-
-	}
+		int multi = 0;
+		if(b == 0){
+			return multi;
+		}
+			multi = a + problem1(a, b - 1);
+			return multi;
+		}
 
 	/* This problem should calculate and return the value
 	 * of a to the b power recursively. You cannot use
@@ -16,7 +21,10 @@ public class Homework16 {
 	 * exponentiation is repeated multiplication
 	 */
 	public static int problem2(int a, int b) {
-
+		if(b == 0){
+			return 1;
+		}
+		return problem1(problem2(a, b - 1), a);
 	}
 
 	/* Recursively find the minimum value in the given
@@ -27,11 +35,50 @@ public class Homework16 {
 	 * half of the array
 	 */
 	public static int problem3(int[] arr) {
-
+		return problem3(arr, 0, arr.length);
 	}
 
 	private static int problem3(int[] arr, int start, int end) {
-
+		int smol = 0;
+		if(end - start <= 1){
+			return smol;
+		}
+		int mid = start + (end - start) / 2;
+		problem3(arr, start, mid);
+		problem3(arr, mid, end);
+		int[] half = new int[end - start];
+		int l = start;
+		int r = mid;
+		int index = 0;
+		while(l != mid && r != end){
+			if(arr[l] <= arr[r]){
+				half[index] = arr[l];
+				l++;
+			}	else {
+				half[index] = arr[r];
+				r++;
+			}
+			index++;
+		}
+		while(r != end){
+			half[index] = arr[r];
+			r++;
+			index++;
+		}
+		while(l != mid){
+			half[index] = arr[l];
+			l++;
+			index++;
+		}
+		for(int i = start; i < end; i++){
+			arr[i] = half[i - start];
+		}
+		if(arr[0] > half[0]){
+			smol = half[0];
+		} else {
+			smol = arr[0];
+		}
+		return smol;
 	}
 
 	/* Recursively find the sum of the digits of
@@ -40,7 +87,10 @@ public class Homework16 {
 	 * and the remaining numbers are num / 10
 	 */
 	public static int problem4(int num) {
-
+		if(num == 0){
+			return 0;
+		}
+		return (num % 10 + problem4(num / 10));
 	}
 
 	/* We have bunnies standing in a line,
@@ -56,8 +106,18 @@ public class Homework16 {
 	 * problem5(2) → 5
 	 */
 	 public static int problem5(int bunnies) {
-
-	 }
+		 if(bunnies == 0){
+			 return 0;
+		 }
+		 int half = 0;
+		 if(bunnies % 2 == 0){
+			 half = bunnies / 2;
+		 }
+		 if(bunnies % 2 == 1){
+			 half = (bunnies / 2) + 1;
+		 }
+		 return problem1(half, 3) + problem1(half, 2);
+		}
 
 	 public static void main(String[] args) {
 		 boolean passed = true;
@@ -93,7 +153,5 @@ public class Homework16 {
 		 } else {
 			 System.out.println("Fail");
 		 }
-
 	 }
-
-}
+ }
